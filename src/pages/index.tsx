@@ -71,7 +71,7 @@ const Home: NextPage = () => {
           <p>Star on GitHub</p>
         </a>
         <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold text-slate-900">
-          Generate questions for an upcoming an interview
+          Generate questions for an upcoming interview
         </h1>
         <div className="max-w-xl">
           <div className="flex mt-10 items-center space-x-3">
