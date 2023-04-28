@@ -1,19 +1,22 @@
 import Image from "next/image"
 import Link from "next/link"
 
+// fonts
+import { Andada_Pro, Pacifico } from "next/font/google"
+
+const andada = Andada_Pro({ subsets: ["latin"] })
+const pacifico = Pacifico({
+  weight: "400",
+  subsets: ["latin"],
+})
+
 export default function Header() {
   return (
     <header className="flex justify-between items-center w-full mt-5 border-b-2 pb-7 sm:px-4 px-2">
       <Link href="/" className="flex space-x-3">
-        <Image
-          alt="header text"
-          src="/writingIcon.png"
-          className="sm:w-12 sm:h-12 w-8 h-8"
-          width={32}
-          height={32}
-        />
         <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight">
-          Opportun.me
+          <span className={andada.className}>Opportun</span>
+          <span className={pacifico.className}>.me</span>
         </h1>
       </Link>
       <a
