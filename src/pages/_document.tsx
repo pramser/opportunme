@@ -31,7 +31,7 @@ class MyDocument extends Document {
             content="https://twitterbio.com/og-image.png"
           />
         </Head>
-        <body>
+        <body className="bg-gray-100">
           <Main />
           <NextScript />
         </body>
