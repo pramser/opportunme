@@ -9,23 +9,31 @@ import { useState } from "react"
 import { Toaster, toast } from "react-hot-toast"
 
 // components
+import DropDown, { VibeType } from "@/components/DropDown"
 import LoadingDots from "@/components/LoadingDots"
 import ResizablePanel from "@/components/ResizablePanel"
 import Page from "@/components/Page"
-import FileDropper from "@/components/FileDropper"
 
-const Home: NextPage = () => {
+const Interview: NextPage = () => {
   const [loading, setLoading] = useState(false)
   const [jobDescription, setJobDescription] = useState("")
-  const [generatedResume, setGeneratedResume] = useState<String>("")
+  const [vibe, setVibe] = useState<VibeType>("Professional")
+  const [generatedBios, setGeneratedBios] = useState<String>("")
 
-  const prompt = `Generate a resume. Make sure it is broken into sections for skills, experience, and projects and base it on this context: ${jobDescription}`
+  const prompt =
+    vibe === "Funny"
+      ? `Generate 3 funny interview questions clearly labeled "1." and "2." amd "3.". Make sure there is a joke in there and it's a little ridiculous. Make sure each generated bio is at max 30 words and base it on this context: ${jobDescription}${
+          jobDescription.slice(-1) === "." ? "" : "."
+        }`
+      : `Generate 3 ${vibe} interview questions clearly labeled "1." and "2." and "3.". Make sure each generated question is at least 14 words and at max 30 words and base them on this context: ${jobDescription}${
+          jobDescription.slice(-1) === "." ? "" : "."
+        }`
 
   const LIST_NUM_REG_EX = /[1-9]. /
 
-  const generateResume = async (e: any) => {
+  const generateBio = async (e: any) => {
     e.preventDefault()
-    setGeneratedResume("")
+    setGeneratedBios("")
     setLoading(true)
 
     const response = await fetch("/api/generate", {
@@ -42,15 +50,15 @@ const Home: NextPage = () => {
       throw new Error(response.statusText)
     }
 
-    let resume = await response.json()
-    setGeneratedResume(resume.choices[0].text)
+    let answer = await response.json()
+    setGeneratedBios(answer.choices[0].text)
     setLoading(false)
   }
 
   return (
     <Page>
       <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold text-slate-900">
-        Create an example resume for your the job you're applying for
+        Generate questions for an upcoming interview
       </h1>
       <div className="max-w-xl">
         <div className="flex mt-10 items-center space-x-3">
@@ -62,7 +70,11 @@ const Home: NextPage = () => {
             className="mb-5 sm:mb-0"
           />
           <p className="text-left font-medium">
-            Write out a basic description of the job.
+            Copy a job description{" "}
+            <span className="text-slate-500">
+              (or try and summarize the role)
+            </span>
+            .
           </p>
         </div>
         <textarea
@@ -71,24 +83,23 @@ const Home: NextPage = () => {
           rows={4}
           className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
           placeholder={
-            "e.g. Senior QA Engineer for Sherwin-Williams that makes $150,000 a year"
+            "e.g. Title: Junior QA Engineer Requirements: Associate degree in a related field or equivalent experience"
           }
         />
-        {/* <div className="flex mb-5 items-center space-x-3">
+        <div className="flex mb-5 items-center space-x-3">
           <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
-          <p className="text-left font-medium">
-            Upload a copy of your resume{" "}
-            <span className="text-slate-500">(only PDFs are allowed)</span>.
-          </p>
+          <p className="text-left font-medium">Select interview vibe.</p>
         </div>
-        <FileDropper /> */}
+        <div className="block">
+          <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
+        </div>
 
         {!loading && (
           <button
             className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-            onClick={(e) => generateResume(e)}
+            onClick={(e) => generateBio(e)}
           >
-            Build a resume &rarr;
+            Generate your questions &rarr;
           </button>
         )}
         {loading && (
@@ -109,17 +120,33 @@ const Home: NextPage = () => {
       <ResizablePanel>
         <AnimatePresence mode="wait">
           <motion.div className="space-y-10 my-10">
-            {generatedResume && (
+            {generatedBios && (
               <>
                 <div>
                   <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
-                    An example resume
+                    Your generated questions
                   </h2>
                 </div>
                 <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                  <div className="bg-white whitespace-break-spaces text-left rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border">
-                    <p>{generatedResume}</p>
-                  </div>
+                  {generatedBios
+                    .substring(generatedBios.indexOf("1") + 3)
+                    .split(LIST_NUM_REG_EX)
+                    .map((generatedBio) => {
+                      return (
+                        <div
+                          className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedBio)
+                            toast("Question copied to clipboard", {
+                              icon: "✂️",
+                            })
+                          }}
+                          key={generatedBio}
+                        >
+                          <p>{generatedBio}</p>
+                        </div>
+                      )
+                    })}
                 </div>
               </>
             )}
@@ -130,4 +157,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Interview
