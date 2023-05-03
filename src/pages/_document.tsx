@@ -5,6 +5,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <title>Opportun.me</title>
           <link rel="icon" href="/favicon.ico" />
           <meta
             name="description"
