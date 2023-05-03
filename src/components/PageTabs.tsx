@@ -12,6 +12,10 @@ function classNames(...classes: any) {
 export default function PageTabs({ tabs }: { tabs: Tab[] }) {
   const router = useRouter()
 
+  const onChange = (e: any) => {
+    router.push(e.target.value)
+  }
+
   return (
     <div className="w-1/2">
       <div className="sm:hidden">
@@ -22,12 +26,15 @@ export default function PageTabs({ tabs }: { tabs: Tab[] }) {
           id="tabs"
           name="tabs"
           className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          onChange={(e) => onChange(e)}
           defaultValue={
             tabs.find((tab: Tab) => router.pathname === tab.href)?.name
           }
         >
           {tabs.map((tab) => (
-            <option key={tab.name}>{tab.name}</option>
+            <option key={tab.name} value={tab.href}>
+              {tab.name}
+            </option>
           ))}
         </select>
       </div>

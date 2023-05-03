@@ -11,7 +11,7 @@ import PageTabs from "@/components/PageTabs"
 
 const tabs = [
   { name: "Interview Questions", href: "/" },
-  { name: "Coming soon...", href: "#" },
+  { name: "Resume Builder", href: "/resume" },
 ]
 
 function MyApp({ Component, pageProps }: AppProps) {
