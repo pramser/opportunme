@@ -12,6 +12,7 @@ import { Toaster, toast } from "react-hot-toast"
 import DropDown, { VibeType } from "../components/DropDown"
 import LoadingDots from "../components/LoadingDots"
 import ResizablePanel from "../components/ResizablePanel"
+import PageTitle from "@/components/PageTitle"
 
 const Welcome: NextPage = () => {
   const [loading, setLoading] = useState(false)
@@ -56,9 +57,7 @@ const Welcome: NextPage = () => {
 
   return (
     <section>
-      <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold text-slate-900">
-        Generate questions for an upcoming interview
-      </h1>
+      <PageTitle title="Generate questions for an upcoming interview" />
       <div className="max-w-xl">
         <div className="flex mt-10 items-center space-x-3">
           <Image
@@ -92,24 +91,23 @@ const Welcome: NextPage = () => {
         <div className="block">
           <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
         </div>
-
-        {!loading && (
-          <button
-            className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-            onClick={(e) => generateBio(e)}
-          >
-            Generate your questions &rarr;
-          </button>
-        )}
-        {loading && (
-          <button
-            className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-            disabled
-          >
-            <LoadingDots color="white" style="large" />
-          </button>
-        )}
       </div>
+      {!loading && (
+        <button
+          className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+          onClick={(e) => generateBio(e)}
+        >
+          Generate your questions &rarr;
+        </button>
+      )}
+      {loading && (
+        <button
+          className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+          disabled
+        >
+          <LoadingDots color="white" style="large" />
+        </button>
+      )}
       <Toaster
         position="top-center"
         reverseOrder={false}
