@@ -9,19 +9,19 @@ class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
           <meta
             name="description"
-            content="Get help with your next, big opportunity."
+            content="Get help with your next big opportunity."
           />
           <meta property="og:site_name" content="opportun.me" />
           <meta
             property="og:description"
-            content="Get help with your next, big opportunity."
+            content="Get help with your next big opportunity."
           />
           <meta property="og:title" content="Opportun.me" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Opportun.me" />
           <meta
             name="twitter:description"
-            content="Get help with your next, big opportunity."
+            content="Get help with your next big opportunity."
           />
           <meta
             property="og:image"
