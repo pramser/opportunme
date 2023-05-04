@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 type Tab = {
@@ -44,7 +45,7 @@ export default function PageTabs({ tabs }: { tabs: Tab[] }) {
           aria-label="Tabs"
         >
           {tabs.map((tab, tabIdx) => (
-            <a
+            <Link
               key={tab.name}
               href={tab.href}
               className={classNames(
@@ -67,7 +68,7 @@ export default function PageTabs({ tabs }: { tabs: Tab[] }) {
                   "absolute inset-x-0 bottom-0 h-0.5"
                 )}
               />
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
