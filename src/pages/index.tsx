@@ -6,19 +6,23 @@ import Image from "next/image"
 
 // react
 import { useState } from "react"
-import { Toaster, toast } from "react-hot-toast"
+import { Toaster } from "react-hot-toast"
 
 // components
 import DropDown, { VibeType } from "../components/DropDown"
 import LoadingDots from "../components/LoadingDots"
 import ResizablePanel from "../components/ResizablePanel"
 import PageTitle from "@/components/PageTitle"
+import PromptModal from "@/components/PromptModal"
 
 const Welcome: NextPage = () => {
-  const [loading, setLoading] = useState(false)
+  // state
+  const [generatedQuestions, setGeneratedQuestions] = useState<String>("")
+  const [selectedQuestion, setSelectedQuestion] = useState<String>("")
   const [jobDescription, setJobDescription] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
   const [vibe, setVibe] = useState<VibeType>("Professional")
-  const [generatedBios, setGeneratedBios] = useState<String>("")
 
   const prompt =
     vibe === "Funny"
@@ -33,7 +37,7 @@ const Welcome: NextPage = () => {
 
   const generateBio = async (e: any) => {
     e.preventDefault()
-    setGeneratedBios("")
+    setGeneratedQuestions("")
     setLoading(true)
 
     const response = await fetch("/api/generate", {
@@ -51,8 +55,13 @@ const Welcome: NextPage = () => {
     }
 
     let answer = await response.json()
-    setGeneratedBios(answer.choices[0].text)
+    setGeneratedQuestions(answer.choices[0].text)
     setLoading(false)
+  }
+
+  const onQuestionClick = (text: string) => {
+    setSelectedQuestion(text)
+    setOpen(true)
   }
 
   return (
@@ -117,7 +126,7 @@ const Welcome: NextPage = () => {
       <ResizablePanel>
         <AnimatePresence mode="wait">
           <motion.div className="space-y-10 my-10">
-            {generatedBios && (
+            {generatedQuestions && (
               <>
                 <div>
                   <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
@@ -125,22 +134,17 @@ const Welcome: NextPage = () => {
                   </h2>
                 </div>
                 <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                  {generatedBios
-                    .substring(generatedBios.indexOf("1") + 3)
+                  {generatedQuestions
+                    .substring(generatedQuestions.indexOf("1") + 3)
                     .split(LIST_NUM_REG_EX)
-                    .map((generatedBio) => {
+                    .map((question) => {
                       return (
                         <div
-                          className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
-                          onClick={() => {
-                            navigator.clipboard.writeText(generatedBio)
-                            toast("Question copied to clipboard", {
-                              icon: "✂️",
-                            })
-                          }}
-                          key={generatedBio}
+                          className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition border cursor-pointer"
+                          onClick={() => onQuestionClick(question)}
+                          key={question}
                         >
-                          <p>{generatedBio}</p>
+                          <p>{question}</p>
                         </div>
                       )
                     })}
@@ -149,6 +153,7 @@ const Welcome: NextPage = () => {
             )}
           </motion.div>
         </AnimatePresence>
+        <PromptModal open={open} setOpen={setOpen} text={selectedQuestion} />
       </ResizablePanel>
     </section>
   )
