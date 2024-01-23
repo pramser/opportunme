@@ -4,10 +4,7 @@ if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI")
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { prompt } = req.body
 
   if (!prompt) {
@@ -15,8 +12,13 @@ export default async function handler(
   }
 
   const payload = {
-    model: "text-davinci-003",
-    prompt,
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: prompt,
+      },
+    ],
     temperature: 0.7,
     top_p: 1,
     frequency_penalty: 0,
@@ -26,7 +28,7 @@ export default async function handler(
     n: 1,
   }
 
-  const response = await fetch("https://api.openai.com/v1/completions", {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ""}`,

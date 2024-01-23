@@ -42,7 +42,7 @@ const Resume: NextPage = () => {
     }
 
     let answer = await response.json()
-    setGeneratedResume(answer.choices[0].text)
+    setGeneratedResume(answer.choices[0].message.content)
     setLoading(false)
   }
 
@@ -51,19 +51,9 @@ const Resume: NextPage = () => {
       <PageTitle title="See a resume for the position you're interested in" />
       <div className="max-w-xl">
         <div className="flex mt-10 items-center space-x-3">
-          <Image
-            src="/1-black.png"
-            width={30}
-            height={30}
-            alt="1 icon"
-            className="mb-5 sm:mb-0"
-          />
+          <Image src="/1-black.png" width={30} height={30} alt="1 icon" className="mb-5 sm:mb-0" />
           <p className="text-left font-medium">
-            Copy a job description{" "}
-            <span className="text-slate-500">
-              (or try and summarize the role)
-            </span>
-            .
+            Copy a job description <span className="text-slate-500">(or try and summarize the role)</span>.
           </p>
         </div>
         <textarea
@@ -92,11 +82,7 @@ const Resume: NextPage = () => {
           <LoadingDots color="white" style="large" />
         </button>
       )}
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{ duration: 2000 }}
-      />
+      <Toaster position="top-center" reverseOrder={false} toastOptions={{ duration: 2000 }} />
       <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
       <ResizablePanel>
         <AnimatePresence mode="wait">
@@ -104,9 +90,7 @@ const Resume: NextPage = () => {
             {generatedResume && (
               <>
                 <div>
-                  <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
-                    Your generated resume
-                  </h2>
+                  <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">Your generated resume</h2>
                 </div>
                 <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
                   <div className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition border text-left whitespace-break-spaces">
