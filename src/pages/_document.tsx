@@ -5,32 +5,16 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>Opportun.me</title>
           <link rel="icon" href="/favicon.ico" />
-          <meta
-            name="description"
-            content="Get help with your next big opportunity."
-          />
+          <meta name="description" content="Get help with your next big opportunity." />
           <meta property="og:site_name" content="opportun.me" />
-          <meta
-            property="og:description"
-            content="Get help with your next big opportunity."
-          />
+          <meta property="og:description" content="Get help with your next big opportunity." />
           <meta property="og:title" content="Opportun.me" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Opportun.me" />
-          <meta
-            name="twitter:description"
-            content="Get help with your next big opportunity."
-          />
-          <meta
-            property="og:image"
-            content="https://opportun.me/og-image.png"
-          />
-          <meta
-            name="twitter:image"
-            content="https://opportu.me/og-image.png"
-          />
+          <meta name="twitter:description" content="Get help with your next big opportunity." />
+          <meta property="og:image" content="https://opportun.me/og-image.png" />
+          <meta name="twitter:image" content="https://opportu.me/og-image.png" />
         </Head>
         <body className="bg-gray-100">
           <Main />

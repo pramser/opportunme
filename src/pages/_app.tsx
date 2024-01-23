@@ -8,6 +8,7 @@ import type { AppProps } from "next/app"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import PageTabs from "@/components/PageTabs"
+import Head from "next/head"
 
 const tabs = [
   { name: "Interview Questions", href: "/" },
@@ -17,6 +18,9 @@ const tabs = [
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
+      <Head>
+        <title>Opportun.me</title>
+      </Head>
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 py-8 sm:mt-4 bg-white border-gray-600 lg:border drop-shadow-2xl">
         <PageTabs tabs={tabs} />
